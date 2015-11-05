@@ -9,12 +9,16 @@ module PgSearch
         @model = model
         @name = name
         @columns = Array(column_names).map do |column_name, weight|
-          ForeignColumn.new(column_name, weight, @model, self)
+          ForeignColumn.new(column_name, weight, self)
         end
       end
 
       def table_name
-        @model.reflect_on_association(@name).table_name
+        reflection.table_name
+      end
+
+      def reflection
+        @model.reflect_on_association(@name)
       end
 
       def join(primary_key)

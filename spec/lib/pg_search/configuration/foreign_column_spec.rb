@@ -26,7 +26,7 @@ describe PgSearch::Configuration::ForeignColumn do
       association = PgSearch::Configuration::Association.new(Model,
         :another_model,
         :title)
-      foreign_column = described_class.new("title", nil, Model, association)
+      foreign_column = described_class.new("title", nil, association)
 
       column_alias = foreign_column.alias
       expect(column_alias).to be_a String

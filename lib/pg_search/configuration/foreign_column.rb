@@ -3,9 +3,9 @@ require 'digest'
 module PgSearch
   class Configuration
     class ForeignColumn < Column
-      def initialize(column, weight, model, association)
-        super(column, weight, model)
-        @association = association
+      def initialize(column, weight, association)
+        super(column, weight, association.reflection.klass)
+        @table_alias = association.subselect_alias
       end
 
       def alias
@@ -14,16 +14,10 @@ module PgSearch
 
       private
 
-      def table_alias
-        @association.subselect_alias
-      end
+      attr_reader :table_alias
 
       def to_sql_options
         [table_alias, self.alias]
-      end
-
-      def full_name_options
-        [@association.table_name]
       end
     end
   end
